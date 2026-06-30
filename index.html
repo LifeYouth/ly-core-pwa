@@ -12,26 +12,36 @@
   <title>LY-Core-Backend</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
-    #loading { position: fixed; inset: 0; display: flex; align-items: center;
-      justify-content: center; background: #1a1a2e; color: #fff;
-      font-family: sans-serif; font-size: 14px; z-index: 10; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #1a1a2e;
+      display: flex; align-items: center; justify-content: center;
+      font-family: sans-serif; color: #fff;
+    }
+    .spinner {
+      text-align: center;
+    }
+    .spinner::before {
+      content: '';
+      display: block;
+      width: 40px; height: 40px;
+      border: 3px solid #e94560;
+      border-top-color: transparent;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
-  <div id="loading">読み込み中...</div>
-  <iframe id="app"
-    src="https://script.google.com/macros/s/AKfycbxR2gSajpM1MX_m6NHKBpuEK492KWLufEqlwhPjWV1Bz02oi3oEzSa62YjuBC6tAjRXTw/exec"
-    allow="fullscreen" title="LY-Core-Backend"
-    onload="document.getElementById('loading').style.display='none'">
-  </iframe>
+  <div class="spinner">起動中...</div>
   <script>
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxR2gSajpM1MX_m6NHKBpuEK492KWLufEqlwhPjWV1Bz02oi3oEzSa62YjuBC6tAjRXTw/exec';
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(console.error);
-      });
+      navigator.serviceWorker.register('./sw.js').catch(console.error);
     }
+    window.location.replace(GAS_URL);
   </script>
 </body>
 </html>
